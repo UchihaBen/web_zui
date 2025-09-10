@@ -21,8 +21,14 @@ docker-compose logs backend --tail=20
 echo Frontend logs:
 docker-compose logs frontend --tail=20
 
-echo MongoDB logs:
-docker-compose logs mongo --tail=10
+echo ✅ Deployment complete!
+echo 🌐 Access your app at: http://localhost:3000
+echo 📡 API calls automatically proxy through port 3000
+echo 🔧 Only port 3000 is exposed - backend is internal only
+
+echo.
+echo Press any key to continue...
+pause
 
 echo.
 echo 🎉 Web Zui is now running!

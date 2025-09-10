@@ -61,7 +61,7 @@ const authReducer = (state: AuthState, action: AuthAction): AuthState => {
   }
 };
 
-const API_BASE_URL = 'http://localhost:5000/api';
+const API_BASE_URL = '/api';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [state, dispatch] = useReducer(authReducer, {

@@ -44,7 +44,7 @@ function Dashboard() {
   const [commentInputs, setCommentInputs] = useState<{ [postId: string]: string }>({});
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-  const API_BASE_URL = 'http://localhost:5000/api';
+  const API_BASE_URL = '/api';
 
   // Configure axios with auth token
   React.useEffect(() => {

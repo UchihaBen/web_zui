@@ -235,7 +235,7 @@ def get_posts():
                         
             # Update image URL to include full path
             if post.get('image_url'):
-                post['image_url'] = f"http://localhost:5000{post['image_url']}"
+                post['image_url'] = f"{post['image_url']}"
                 
             del post['_id']
             del post['author_id']
@@ -299,7 +299,7 @@ def create_post():
                     'angry': [],
                     'sad': []
                 },
-                'image_url': f"http://localhost:5000{image_url}" if image_url else '',
+                'image_url': f"{image_url}" if image_url else '',
                 'author': {
                     'id': str(author['_id']),
                     'name': author['name'],
@@ -848,7 +848,7 @@ def get_messages(friend_id):
                 'from_user': str(msg['from_user']),
                 'to_user': str(msg['to_user']),
                 'content': msg['content'],
-                'image_url': f"http://localhost:5000{msg['image_url']}" if msg.get('image_url') else '',
+                'image_url': f"{msg['image_url']}" if msg.get('image_url') else '',
                 'created_at': msg['created_at'].isoformat(),
                 'read': msg.get('read', False)
             })
@@ -1047,7 +1047,7 @@ def get_user_posts(user_id):
                         
             # Update image URL to include full path
             if post.get('image_url'):
-                post['image_url'] = f"http://localhost:5000{post['image_url']}"
+                post['image_url'] = f"{post['image_url']}"
                 
             del post['_id']
             del post['author_id']
@@ -1076,7 +1076,7 @@ def update_user_profile():
             # Handle avatar upload
             avatar_url = save_base64_image(data['avatar'])
             if avatar_url:
-                update_data['avatar'] = f"http://localhost:5000{avatar_url}"
+                update_data['avatar'] = f"{avatar_url}"
         
         if not update_data:
             return jsonify({'error': 'Không có dữ liệu để cập nhật'}), 400

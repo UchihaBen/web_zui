@@ -1,14 +1,13 @@
 version: '3.8'
 
 services:
-  # Backend Flask API
+  # Backend Flask API - INTERNAL ONLY
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
     container_name: web_zui_backend
-    ports:
-      - "5000:5000"
+    # Remove ports exposure - only internal access
     env_file:
       - .env.docker
     volumes:
@@ -17,7 +16,7 @@ services:
       - web_zui_network
     restart: unless-stopped
 
-  # Frontend React App
+  # Frontend React App - PUBLIC ACCESS
   frontend:
     build:
       context: ./frontend
@@ -26,7 +25,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - REACT_APP_API_URL=http://localhost:5000/api
+      - REACT_APP_API_URL=/api  # Use relative path for proxy
     depends_on:
       - backend
     networks:
