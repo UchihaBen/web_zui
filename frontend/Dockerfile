@@ -1,5 +1,5 @@
-# Use Node.js 16 Alpine image for smaller size
-FROM node:16-alpine as build
+# Use Node.js 20 Alpine image for compatibility
+FROM node:20-alpine as build
 
 # Set working directory
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm ci --only=production
+RUN npm ci --omit=dev
 
 # Copy source code
 COPY . .
