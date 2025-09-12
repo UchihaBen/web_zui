@@ -72,6 +72,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   });
 
   useEffect(() => {
+    // Set base URL to current domain
+    axios.defaults.baseURL = window.location.origin;
+    
     if (state.token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${state.token}`;
     } else {
