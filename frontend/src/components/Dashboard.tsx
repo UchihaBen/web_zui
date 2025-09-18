@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { API_BASE_URL } from '../config/api';
+import { API_BASE_URL, getImageUrl } from '../config/api';
 import './Dashboard.css';
 
 interface Comment {
@@ -242,7 +242,7 @@ function Dashboard() {
                         title={`Xem trang cá nhân của ${post.author.name}`}
                       >
                         {post.author.avatar ? (
-                          <img src={post.author.avatar} alt={post.author.name} />
+                          <img src={getImageUrl(post.author.avatar)} alt={post.author.name} />
                         ) : (
                           <div className="avatar-placeholder">
                             {post.author.name.charAt(0).toUpperCase()}
@@ -274,7 +274,7 @@ function Dashboard() {
                   <div className="post-content">
                     <p>{post.content}</p>
                     {post.image_url && (
-                      <img src={post.image_url} alt="Post image" className="post-image" />
+                      <img src={getImageUrl(post.image_url)} alt="Post image" className="post-image" />
                     )}
                   </div>
                   
@@ -356,7 +356,7 @@ function Dashboard() {
                             title={`Xem trang cá nhân của ${comment.author_name}`}
                           >
                             {comment.author_avatar ? (
-                              <img src={comment.author_avatar} alt={comment.author_name} />
+                              <img src={getImageUrl(comment.author_avatar)} alt={comment.author_name} />
                             ) : (
                               <div className="avatar-placeholder">
                                 {comment.author_name.charAt(0).toUpperCase()}
@@ -386,7 +386,7 @@ function Dashboard() {
                         title={`Xem trang cá nhân của bạn`}
                       >
                         {user?.avatar ? (
-                          <img src={user.avatar} alt={user.name} />
+                          <img src={getImageUrl(user.avatar)} alt={user.name} />
                         ) : (
                           <div className="avatar-placeholder">
                             {user?.name?.charAt(0).toUpperCase()}

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { API_BASE_URL } from '../config/api';
+import { API_BASE_URL, getImageUrl } from '../config/api';
 import './Profile.css';
 
 interface UserProfile {
@@ -202,7 +202,7 @@ function Profile() {
           <div className="profile-avatar-container">
             <div className="profile-avatar">
               {(selectedImage || profile.avatar) ? (
-                <img src={selectedImage || profile.avatar} alt={profile.name} />
+                <img src={selectedImage || getImageUrl(profile.avatar)} alt={profile.name} />
               ) : (
                 <div className="avatar-placeholder">
                   {profile.name.charAt(0).toUpperCase()}
@@ -328,7 +328,7 @@ function Profile() {
                   <div className="post-author">
                     <div className="user-avatar">
                       {post.author.avatar ? (
-                        <img src={post.author.avatar} alt={post.author.name} />
+                        <img src={getImageUrl(post.author.avatar)} alt={post.author.name} />
                       ) : (
                         <div className="avatar-placeholder">
                           {post.author.name.charAt(0).toUpperCase()}
@@ -354,7 +354,7 @@ function Profile() {
                 <div className="post-content">
                   <p>{post.content}</p>
                   {post.image_url && (
-                    <img src={post.image_url} alt="Post image" className="post-image" />
+                    <img src={getImageUrl(post.image_url)} alt="Post image" className="post-image" />
                   )}
                 </div>
                 

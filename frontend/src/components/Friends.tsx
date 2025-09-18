@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { API_BASE_URL } from '../config/api';
+import { API_BASE_URL, getImageUrl } from '../config/api';
 import './Friends.css';
 
 interface User {
@@ -131,7 +131,7 @@ function Friends() {
                     title={`Xem trang cá nhân của ${user.name}`}
                   >
                     {user.avatar ? (
-                      <img src={user.avatar} alt={user.name} />
+                      <img src={getImageUrl(user.avatar)} alt={user.name} />
                     ) : (
                       <div className="avatar-placeholder">
                         {user.name.charAt(0).toUpperCase()}
@@ -168,7 +168,7 @@ function Friends() {
                   title={`Xem trang cá nhân của ${request.from_user.name}`}
                 >
                   {request.from_user.avatar ? (
-                    <img src={request.from_user.avatar} alt={request.from_user.name} />
+                    <img src={getImageUrl(request.from_user.avatar)} alt={request.from_user.name} />
                   ) : (
                     <div className="avatar-placeholder">
                       {request.from_user.name.charAt(0).toUpperCase()}
@@ -217,7 +217,7 @@ function Friends() {
                   title={`Xem trang cá nhân của ${friend.name}`}
                 >
                   {friend.avatar ? (
-                    <img src={friend.avatar} alt={friend.name} />
+                    <img src={getImageUrl(friend.avatar)} alt={friend.name} />
                   ) : (
                     <div className="avatar-placeholder">
                       {friend.name.charAt(0).toUpperCase()}

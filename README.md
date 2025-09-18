@@ -2,6 +2,15 @@
 
 Ứng dụng mạng xã hội tương tự Facebook được xây dựng với React (Frontend), Python Flask (Backend) và MongoDB Atlas (Database).
 
+## 🐳 Chạy nhanh với Docker (Khuyến nghị)
+
+**Chỉ cần 2 bước:**
+1. Khởi động Docker Desktop
+2. Chạy: `docker-run.bat` (Windows) hoặc `./docker-run.sh` (Linux/Mac)
+3. Mở trình duyệt: http://localhost:3000
+
+👉 [Xem hướng dẫn Docker chi tiết](README-Docker.md)
+
 ## ✨ Tính năng
 
 - 🔐 Đăng ký và đăng nhập người dùng

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { getImageUrl } from '../config/api';
 import './Navbar.css';
 
 function Navbar() {
@@ -37,7 +38,7 @@ function Navbar() {
           <div className="user-info">
             <div className="user-avatar">
               {user?.avatar ? (
-                <img src={user.avatar} alt={user.name} />
+                <img src={getImageUrl(user.avatar)} alt={user.name} />
               ) : (
                 <div className="avatar-placeholder">
                   {user?.name.charAt(0).toUpperCase()}

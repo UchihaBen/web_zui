@@ -1,24 +1,33 @@
 # Web Zui - Docker Setup
 
+## 🐳 Chạy ứng dụng với Docker
+
+Với Docker, bạn chỉ cần một lệnh để chạy toàn bộ ứng dụng!
+
 ## Yêu cầu hệ thống
 
-- Docker Engine 20.10+
+- Docker Desktop hoặc Docker Engine 20.10+
 - Docker Compose 1.29+
 - RAM: tối thiểu 2GB trống
 - Ổ cứng: tối thiểu 1GB trống
 
 ## Cấu trúc Docker
 
-- **Frontend**: React app với Nginx (Port 3000)
-- **Backend**: Flask API (Port 5000) 
-- **Database**: MongoDB (Port 27017)
+- **Nginx**: Reverse proxy (Port 3000 → Public)
+- **Frontend**: React dev server (Internal)
+- **Backend**: Flask API (Internal)
+- **Database**: MongoDB Atlas (Cloud)
 
-## Cách chạy
+## 🚀 Cách chạy nhanh
 
-### 1. Sử dụng script tự động
+### Bước 1: Khởi động Docker Desktop
+- Mở ứng dụng Docker Desktop
+- Đợi đến khi Docker fully started (icon màu xanh)
+
+### Bước 2: Chạy ứng dụng
 
 **Windows:**
-```bash
+```cmd
 docker-run.bat
 ```
 
@@ -28,26 +37,33 @@ chmod +x docker-run.sh
 ./docker-run.sh
 ```
 
-### 2. Chạy thủ công
+### Bước 3: Truy cập ứng dụng
+- Mở trình duyệt: http://localhost:3000
+- Đăng ký tài khoản mới hoặc đăng nhập
 
+## 🛠️ Chạy thủ công
+
+### 1. Build và chạy
 ```bash
-# Build và chạy tất cả containers
 docker-compose up --build -d
+```
 
-# Xem logs
+### 2. Xem logs
+```bash
 docker-compose logs -f
+```
 
-# Dừng containers
+### 3. Dừng ứng dụng
+```bash
 docker-compose down
 ```
 
-## Truy cập ứng dụng
+## 🌐 Truy cập ứng dụng
 
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:5000
-- **MongoDB**: localhost:27017
+- **Ứng dụng chính**: http://localhost:3000
+- Chỉ cần mở cổng 3000, tất cả sẽ hoạt động qua nginx proxy
 
-## Quản lý containers
+## 🔧 Quản lý containers
 
 ```bash
 # Xem trạng thái containers

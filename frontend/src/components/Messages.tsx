@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { API_BASE_URL } from '../config/api';
+import { API_BASE_URL, getImageUrl } from '../config/api';
 import './Messages.css';
 
 interface User {
@@ -319,7 +319,7 @@ function Messages() {
                   title={`Xem trang cá nhân của ${conv.user.name}`}
                 >
                   {conv.user.avatar ? (
-                    <img src={conv.user.avatar} alt={conv.user.name} />
+                    <img src={getImageUrl(conv.user.avatar)} alt={conv.user.name} />
                   ) : (
                     <div className="avatar-placeholder">
                       {conv.user.name.charAt(0).toUpperCase()}
@@ -359,7 +359,7 @@ function Messages() {
                 title={`Xem trang cá nhân của ${selectedFriend.name}`}
               >
                 {selectedFriend.avatar ? (
-                  <img src={selectedFriend.avatar} alt={selectedFriend.name} />
+                  <img src={getImageUrl(selectedFriend.avatar)} alt={selectedFriend.name} />
                 ) : (
                   <div className="avatar-placeholder">
                     {selectedFriend.name.charAt(0).toUpperCase()}
@@ -396,10 +396,10 @@ function Messages() {
                           {message.content && <p>{message.content}</p>}
                           {message.image_url && (
                             <img 
-                              src={message.image_url} 
+                              src={getImageUrl(message.image_url)} 
                               alt="Shared content" 
                               className="message-image"
-                              onClick={() => window.open(message.image_url, '_blank')}
+                              onClick={() => window.open(getImageUrl(message.image_url), '_blank')}
                             />
                           )}
                           <span className="message-time">

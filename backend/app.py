@@ -30,7 +30,8 @@ app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file size
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 jwt = JWTManager(app)
-CORS(app)
+# Configure CORS to allow all origins (since we're using nginx proxy)
+CORS(app, origins=['*'], supports_credentials=True)
 
 # MongoDB connection
 MONGO_URI = os.getenv('MONGODB_URI', "mongodb+srv://admin:Thanh01042003%40@cluster0.gl6b566.mongodb.net/social_app?retryWrites=true&w=majority&appName=Cluster0")
