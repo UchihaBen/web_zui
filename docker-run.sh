@@ -1,40 +1,42 @@
 #!/bin/bash
 
-# Docker build and run script
+echo "🚀 Starting Web Zui Docker containers..."
 
-echo "🚀 Building Web Zui Docker containers..."
+# Check if Docker is running
+echo "🔍 Checking Docker status..."
+if ! docker info > /dev/null 2>&1; then
+    echo "❌ Docker is not running!"
+    echo "💡 Please start Docker first:"
+    echo "   sudo systemctl start docker"
+    echo "   # Or install Docker if not installed:"
+    echo "   sudo apt install docker.io docker-compose -y"
+    echo "   sudo usermod -aG docker \$USER"
+    echo "   # Then logout and login again"
+    exit 1
+fi
+
+echo "✅ Docker is running!"
 
 # Stop existing containers if running
 echo "⏹️  Stopping existing containers..."
 docker-compose down
 
-# Remove old images (optional - uncomment if you want to rebuild from scratch)
-# docker-compose build --no-cache
-
 # Build and start containers
 echo "🔨 Building and starting containers..."
 docker-compose up --build -d
+
+# Wait a moment for containers to start
+echo "⏰ Waiting for containers to start..."
+sleep 10
 
 # Show running containers
 echo "📋 Running containers:"
 docker-compose ps
 
-# Show logs
-echo "📝 Container logs:"
-echo "Backend logs:"
-docker-compose logs backend --tail=20
-
-echo "Frontend logs:"
-docker-compose logs frontend --tail=20
-
-echo "MongoDB logs:"
-docker-compose logs mongo --tail=10
-
 echo ""
-echo "🎉 Web Zui is now running!"
-echo "Frontend: http://localhost:3000"
-echo "Backend API: http://localhost:5000"
-echo "MongoDB: localhost:27017"
+echo "✅ Application is ready!"
+echo "🌐 Open your browser and go to: http://localhost:3000"
 echo ""
-echo "To stop containers: docker-compose down"
-echo "To view logs: docker-compose logs -f [service_name]"
+echo "📝 To view logs: docker-compose logs -f"
+echo "📝 To stop app: docker-compose down"
+echo ""

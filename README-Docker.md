@@ -20,24 +20,38 @@ Với Docker, bạn chỉ cần một lệnh để chạy toàn bộ ứng dụn
 
 ## 🚀 Cách chạy nhanh
 
-### Bước 1: Khởi động Docker Desktop
+### Windows
+
+**Bước 1:** Khởi động Docker Desktop
 - Mở ứng dụng Docker Desktop
 - Đợi đến khi Docker fully started (icon màu xanh)
 
-### Bước 2: Chạy ứng dụng
-
-**Windows:**
+**Bước 2:** Chạy ứng dụng
 ```cmd
-docker-run.bat
+.\docker-run.bat
 ```
 
-**Linux/Mac:**
+### Ubuntu/Linux
+
+**Bước 1:** Cài đặt Docker (nếu chưa có)
 ```bash
+sudo apt update
+sudo apt install docker.io docker-compose -y
+sudo usermod -aG docker $USER
+sudo systemctl start docker
+sudo systemctl enable docker
+# Logout và login lại
+```
+
+**Bước 2:** Clone và chạy
+```bash
+git clone https://github.com/UchihaBen/web_zui.git
+cd web_zui
 chmod +x docker-run.sh
 ./docker-run.sh
 ```
 
-### Bước 3: Truy cập ứng dụng
+### Truy cập ứng dụng
 - Mở trình duyệt: http://localhost:3000
 - Đăng ký tài khoản mới hoặc đăng nhập
 
