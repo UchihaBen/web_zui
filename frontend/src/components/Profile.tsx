@@ -52,6 +52,7 @@ function Profile() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [isFriend, setIsFriend] = useState(false);
   const [friendRequestSent, setFriendRequestSent] = useState(false);
+  const [commentInputs, setCommentInputs] = useState<{ [key: string]: string }>({});
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const isOwnProfile = !userId || userId === user?.id;
@@ -179,6 +180,42 @@ function Profile() {
         console.error('Lỗi khi xóa bài viết:', error);
         alert('Có lỗi xảy ra khi xóa bài viết');
       }
+    }
+  };
+
+  const handleReaction = async (postId: string, reactionType: string) => {
+    try {
+      await axios.post(`${API_BASE_URL}/posts/${postId}/reactions`, {
+        reaction_type: reactionType
+      });
+      fetchUserPosts();
+    } catch (error) {
+      console.error('Lỗi khi phản ứng:', error);
+    }
+  };
+
+  const handleAddComment = async (postId: string) => {
+    const commentText = commentInputs[postId]?.trim();
+    if (!commentText) return;
+
+    try {
+      await axios.post(`${API_BASE_URL}/posts/${postId}/comments`, {
+        content: commentText
+      });
+      
+      setCommentInputs(prev => ({ ...prev, [postId]: '' }));
+      fetchUserPosts(); // Refresh posts to update comments
+    } catch (error) {
+      console.error('Lỗi khi bình luận:', error);
+      alert('Có lỗi xảy ra khi bình luận');
+    }
+  };
+
+  const navigateToProfile = (targetUserId: string) => {
+    if (targetUserId === user?.id) {
+      navigate('/profile');
+    } else {
+      navigate(`/profile/${targetUserId}`);
     }
   };
 
@@ -358,9 +395,142 @@ function Profile() {
                   )}
                 </div>
                 
-                <div className="post-stats">
-                  <span>{post.likes?.length || 0} lượt thích</span>
-                  <span>{post.comments?.length || 0} bình luận</span>
+                {/* Reactions */}
+                <div className="post-reactions">
+                  {/* Display reaction counts */}
+                  {(post.reactions && Object.values(post.reactions).some((arr: any) => arr?.length > 0)) && (
+                    <div className="reactions-display">
+                      {(post.reactions.like && post.reactions.like.length > 0) && (
+                        <span className="reaction-count">👍 {post.reactions.like.length}</span>
+                      )}
+                      {(post.reactions.love && post.reactions.love.length > 0) && (
+                        <span className="reaction-count">❤️ {post.reactions.love.length}</span>
+                      )}
+                      {(post.reactions.laugh && post.reactions.laugh.length > 0) && (
+                        <span className="reaction-count">😄 {post.reactions.laugh.length}</span>
+                      )}
+                      {(post.reactions.angry && post.reactions.angry.length > 0) && (
+                        <span className="reaction-count">😠 {post.reactions.angry.length}</span>
+                      )}
+                      {(post.reactions.sad && post.reactions.sad.length > 0) && (
+                        <span className="reaction-count">😢 {post.reactions.sad.length}</span>
+                      )}
+                    </div>
+                  )}
+                  
+                  <div className="reaction-buttons">
+                    <button 
+                      onClick={() => handleReaction(post.id, 'like')}
+                      className={`reaction-btn ${post.reactions?.like?.includes(user?.id || '') ? 'active' : ''}`}
+                      data-reaction="like"
+                      title="Thích"
+                    >
+                      Thích
+                    </button>
+                    <button 
+                      onClick={() => handleReaction(post.id, 'love')}
+                      className={`reaction-btn ${post.reactions?.love?.includes(user?.id || '') ? 'active' : ''}`}
+                      data-reaction="love"
+                      title="Yêu thích"
+                    >
+                      Yêu thích
+                    </button>
+                    <button 
+                      onClick={() => handleReaction(post.id, 'laugh')}
+                      className={`reaction-btn ${post.reactions?.laugh?.includes(user?.id || '') ? 'active' : ''}`}
+                      data-reaction="haha"
+                      title="Haha"
+                    >
+                      Haha
+                    </button>
+                    <button 
+                      onClick={() => handleReaction(post.id, 'angry')}
+                      className={`reaction-btn ${post.reactions?.angry?.includes(user?.id || '') ? 'active' : ''}`}
+                      data-reaction="angry"
+                      title="Giận"
+                    >
+                      Giận
+                    </button>
+                    <button 
+                      onClick={() => handleReaction(post.id, 'sad')}
+                      className={`reaction-btn ${post.reactions?.sad?.includes(user?.id || '') ? 'active' : ''}`}
+                      data-reaction="sad"
+                      title="Buồn"
+                    >
+                      Buồn
+                    </button>
+                  </div>
+                </div>
+                
+                {/* Comments Section */}
+                <div className="comments-section">
+                  <div className="comments-list">
+                    {post.comments?.map((comment) => (
+                      <div key={comment.id} className="comment">
+                        <div 
+                          className="comment-avatar clickable"
+                          onClick={() => navigateToProfile(comment.author_id)}
+                          title={`Xem trang cá nhân của ${comment.author_name}`}
+                        >
+                          {comment.author_avatar ? (
+                            <img src={getImageUrl(comment.author_avatar)} alt={comment.author_name} />
+                          ) : (
+                            <div className="avatar-placeholder">
+                              {comment.author_name.charAt(0).toUpperCase()}
+                            </div>
+                          )}
+                        </div>
+                        <div className="comment-content">
+                          <div className="comment-bubble">
+                            <strong 
+                              onClick={() => navigateToProfile(comment.author_id)}
+                              className="comment-author-name clickable"
+                            >
+                              {comment.author_name}
+                            </strong>
+                            <p>{comment.content}</p>
+                          </div>
+                          <span className="comment-time">{formatDate(comment.created_at)}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className="add-comment-form">
+                    <div 
+                      className="user-avatar clickable"
+                      onClick={() => navigateToProfile(user?.id || '')}
+                      title={`Xem trang cá nhân của bạn`}
+                    >
+                      {user?.avatar ? (
+                        <img src={getImageUrl(user.avatar)} alt={user.name} />
+                      ) : (
+                        <div className="avatar-placeholder">
+                          {user?.name?.charAt(0).toUpperCase()}
+                        </div>
+                      )}
+                    </div>
+                    <textarea
+                      value={commentInputs[post.id] || ''}
+                      onChange={(e) => setCommentInputs(prev => ({ ...prev, [post.id]: e.target.value }))}
+                      placeholder="Viết bình luận..."
+                      className="comment-input"
+                      rows={1}
+                      onKeyPress={(e) => {
+                        if (e.key === 'Enter' && !e.shiftKey) {
+                          e.preventDefault();
+                          handleAddComment(post.id);
+                        }
+                      }}
+                    />
+                    <button 
+                      onClick={() => handleAddComment(post.id)}
+                      className="send-comment-btn"
+                      disabled={!commentInputs[post.id]?.trim()}
+                    >
+                      Gửi
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
